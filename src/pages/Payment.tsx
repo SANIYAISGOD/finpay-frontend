@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import AppShell from "@/components/AppShell";
 import FingerprintScanner from "@/components/FingerprintScanner";
 import SecurityBadge from "@/components/SecurityBadge";
+import FraudWarning from "@/components/FraudWarning";
 
-type PayStep = "amount" | "identity" | "auth" | "processing";
+type PayStep = "amount" | "identity" | "fraud_check" | "auth" | "processing";
 type IdentityMethod = "nfc" | "phone" | "qr";
 
 const Payment = () => {
@@ -22,6 +23,19 @@ const Payment = () => {
     enter: { opacity: 0, x: 30 },
     center: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -30 },
+  };
+
+  const handleProceedToAuth = () => {
+    // Show fraud check step before auth
+    setStep("fraud_check");
+  };
+
+  const handleFraudConfirm = () => {
+    setStep("auth");
+  };
+
+  const handleFraudCancel = () => {
+    setStep("amount");
   };
 
   const handleAuthComplete = (success: boolean) => {
@@ -146,12 +160,52 @@ const Payment = () => {
               )}
 
               <Button
-                onClick={() => setStep("auth")}
+                onClick={handleProceedToAuth}
                 disabled={identityMethod === "phone" && phoneInput.length < 10}
                 className="w-full h-12 finpay-gradient text-primary-foreground font-semibold text-base rounded-xl"
               >
                 Proceed to Fingerprint Auth
               </Button>
+            </motion.div>
+          )}
+
+          {step === "fraud_check" && (
+            <motion.div key="fraud_check" variants={slideVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
+              <div className="finpay-card p-4 flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Amount</span>
+                <span className="text-xl font-extrabold finpay-gradient-text">₹{parseFloat(amount).toLocaleString()}</span>
+              </div>
+
+              <FraudWarning
+                amount={amount}
+                merchant="QuickMart Store"
+                onConfirm={handleFraudConfirm}
+                onCancel={handleFraudCancel}
+                visible={true}
+              />
+
+              {/* If low risk, auto-proceed */}
+              {parseFloat(amount) <= 5000 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="finpay-card p-4 text-center space-y-3"
+                >
+                  <div className="w-10 h-10 rounded-full bg-finpay-success/10 flex items-center justify-center mx-auto">
+                    <span className="text-finpay-success text-lg">✓</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">AI Check Passed</p>
+                    <p className="text-xs text-muted-foreground">No suspicious activity detected</p>
+                  </div>
+                  <Button
+                    onClick={handleFraudConfirm}
+                    className="w-full h-12 finpay-gradient text-primary-foreground font-semibold rounded-xl"
+                  >
+                    Continue to Authentication
+                  </Button>
+                </motion.div>
+              )}
             </motion.div>
           )}
 

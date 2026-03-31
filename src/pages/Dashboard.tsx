@@ -1,25 +1,27 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { CreditCard, Send, QrCode, History, ArrowUpRight, ArrowDownLeft, Bell } from "lucide-react";
+import { CreditCard, Send, QrCode, History, ArrowUpRight, ArrowDownLeft, Bell, BarChart3 } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import FinPayLogo from "@/components/FinPayLogo";
 import { Button } from "@/components/ui/button";
+import ContextBadge from "@/components/ContextBadge";
+import AIChatAssistant from "@/components/AIChatAssistant";
 
 const recentTxns = [
-  { id: 1, name: "Cafe Mocha", amount: -180, time: "2 min ago", type: "debit" },
-  { id: 2, name: "Received from Priya", amount: 2500, time: "1 hr ago", type: "credit" },
-  { id: 3, name: "Amazon Pay", amount: -1299, time: "Yesterday", type: "debit" },
-  { id: 4, name: "Salary Credit", amount: 45000, time: "2 days ago", type: "credit" },
+  { id: 1, name: "Cafe Mocha", amount: -180, time: "2 min ago", type: "debit", context: "frequent" as const },
+  { id: 2, name: "Received from Priya", amount: 2500, time: "1 hr ago", type: "credit", context: "frequent" as const },
+  { id: 3, name: "Amazon Pay", amount: -1299, time: "Yesterday", type: "debit", context: "trending" as const },
+  { id: 4, name: "Salary Credit", amount: 45000, time: "2 days ago", type: "credit", context: "new_pattern" as const },
 ];
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const quickActions = [
-    { icon: Send, label: "Pay", color: "finpay-gradient", onClick: () => navigate("/payment") },
-    { icon: QrCode, label: "Scan", color: "finpay-gradient", onClick: () => navigate("/payment") },
-    { icon: CreditCard, label: "Cards", color: "finpay-gradient", onClick: () => {} },
-    { icon: History, label: "History", color: "finpay-gradient", onClick: () => {} },
+    { icon: Send, label: "Pay", onClick: () => navigate("/payment") },
+    { icon: QrCode, label: "Scan", onClick: () => navigate("/payment") },
+    { icon: BarChart3, label: "Analytics", onClick: () => navigate("/analytics") },
+    { icon: History, label: "History", onClick: () => {} },
   ];
 
   return (
@@ -108,7 +110,10 @@ const Dashboard = () => {
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">{txn.name}</p>
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-sm font-medium text-foreground">{txn.name}</p>
+                      <ContextBadge type={txn.context} />
+                    </div>
                     <p className="text-xs text-muted-foreground">{txn.time}</p>
                   </div>
                 </div>
@@ -120,6 +125,8 @@ const Dashboard = () => {
           </div>
         </motion.div>
       </div>
+
+      <AIChatAssistant />
     </AppShell>
   );
 };
