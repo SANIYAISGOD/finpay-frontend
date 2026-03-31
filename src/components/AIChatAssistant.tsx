@@ -131,8 +131,8 @@ const AIChatAssistant = () => {
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            className="fixed bottom-24 right-4 z-50 w-80 finpay-card overflow-hidden flex flex-col shadow-2xl"
-            style={{ maxHeight: "60vh" }}
+            className="fixed bottom-24 right-4 z-50 w-96 finpay-card overflow-hidden flex flex-col shadow-2xl"
+            style={{ maxHeight: "70vh" }}
           >
             {/* Header */}
             <div className="finpay-gradient p-4 flex items-center justify-between">
