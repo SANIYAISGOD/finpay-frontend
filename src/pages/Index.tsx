@@ -60,7 +60,7 @@ const Index = () => {
               transition={{ delay: 0.3 }}
               className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center"
             >
-              <SmartphoneOff size={32} className="text-muted-foreground" />
+              <PhoneOff size={32} className="text-muted-foreground" />
             </motion.div>
 
             {/* Arrow */}
