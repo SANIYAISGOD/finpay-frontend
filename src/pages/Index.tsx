@@ -9,7 +9,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const features = [
-    { icon: SmartphoneOff, title: "No Phone Needed", desc: "Left your phone at home? Just use your fingerprint to pay" },
+    { icon: PhoneOff, title: "No Phone Needed", desc: "Left your phone at home? Just use your fingerprint to pay" },
     { icon: Fingerprint, title: "Biometric Identity", desc: "Your fingerprint is your wallet — register once, pay forever" },
     { icon: Shield, title: "Privacy-First", desc: "No raw biometric data ever stored — fully tokenized" },
     { icon: Zap, title: "Instant & Secure", desc: "Sub-second authentication at any merchant terminal" },
