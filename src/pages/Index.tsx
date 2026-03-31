@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Shield, Zap, Fingerprint, SmartphoneOff, Wallet, Store } from "lucide-react";
+import { ArrowRight, Shield, Zap, Fingerprint, PhoneOff, Wallet, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AppShell from "@/components/AppShell";
 import FinPayLogo from "@/components/FinPayLogo";
