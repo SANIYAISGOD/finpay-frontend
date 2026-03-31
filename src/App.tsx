@@ -8,6 +8,7 @@ import Onboarding from "./pages/Onboarding.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Payment from "./pages/Payment.tsx";
 import Confirmation from "./pages/Confirmation.tsx";
+import Analytics from "./pages/Analytics.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
