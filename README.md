@@ -1,3 +1,5 @@
-# Welcome to your Lovable project
+# FinPay Biometric Platform
 
-TODO: Document your project here
+FinPay is India's first Aadhaar-linked biometric UPI payment system. 
+
+It allows users to link their Aadhaar and perform UPI payments using just their fingerprints, removing the dependency on smartphones or internet connections for users.

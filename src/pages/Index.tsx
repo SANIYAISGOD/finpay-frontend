@@ -7,8 +7,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FinPayLogo from "@/components/FinPayLogo";
-import heroImage from "@/assets/hero-fingerprint-light.jpg";
-import sceneImage from "@/assets/india-scene-light.jpg";
 
 const banks = [
   { name: "SBI", full: "State Bank of India" },
@@ -58,7 +56,7 @@ const Index = () => {
 
           <p className="text-[15px] text-muted-foreground leading-relaxed max-w-[320px]">
             India's first <span className="text-primary font-semibold">Aadhaar-linked biometric UPI</span> payment system.
-            Bhool gaye phone ghar pe? Bas fingerprint lagao, payment ho jayega.
+            Bhool gaye phone ghar pe? No worries!
           </p>
 
           <div className="flex items-center gap-3">
@@ -76,22 +74,6 @@ const Index = () => {
               Dashboard →
             </Button>
           </div>
-        </motion.section>
-
-        {/* Hero Image */}
-        <motion.section
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="relative rounded-3xl overflow-hidden mb-8 shadow-lg border border-border/50"
-        >
-          <img
-            src={heroImage}
-            alt="FinPay Biometric Payment"
-            className="w-full h-52 object-cover"
-            width={800}
-            height={512}
-          />
         </motion.section>
 
         {/* Supported Banks Carousel */}
@@ -125,7 +107,30 @@ const Index = () => {
           </div>
         </motion.section>
 
-        {/* How it Works */}
+        
+
+        {/* India Scene Image */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65 }}
+          className="relative rounded-3xl overflow-hidden mb-8 shadow-lg border border-border/50"
+        >
+          <img
+            src="/har-gali.png"
+            alt="Biometric payments at Indian shops"
+            className="w-full h-48 object-cover"
+            loading="lazy"
+            width={800}
+            height={512}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4 space-y-1">
+            <p className="text-sm font-bold text-white">Har Gali, Har Dukaan</p>
+            <p className="text-[10px] text-white/80">From street vendors to malls — pay with just your finger</p>
+          </div>
+        </motion.section>
+{/* How it Works */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -161,29 +166,6 @@ const Index = () => {
             ))}
           </div>
         </motion.section>
-
-        {/* India Scene Image */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
-          className="relative rounded-3xl overflow-hidden mb-8 shadow-lg border border-border/50"
-        >
-          <img
-            src={sceneImage}
-            alt="Biometric payments at Indian shops"
-            className="w-full h-48 object-cover"
-            loading="lazy"
-            width={800}
-            height={512}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4 space-y-1">
-            <p className="text-sm font-bold text-white">Har Gali, Har Dukaan</p>
-            <p className="text-[10px] text-white/80">From street vendors to malls — pay with just your finger</p>
-          </div>
-        </motion.section>
-
         {/* Why FinPay */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
