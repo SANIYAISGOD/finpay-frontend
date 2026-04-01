@@ -2,8 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  ArrowRight, Shield, Zap, Fingerprint, Wallet, Store,
-  QrCode, IndianRupee, Building2, Sparkles, ChevronRight,
+  ArrowRight, Zap, Fingerprint, Wallet, Store,
+  IndianRupee, Building2, Sparkles, ChevronRight,
   Star, Users, Lock, Smartphone, Globe, TrendingUp, Award
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
