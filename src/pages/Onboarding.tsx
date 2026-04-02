@@ -17,6 +17,9 @@ const Onboarding = () => {
   const [method, setMethod] = useState<"phone" | "aadhaar">("phone");
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [demoOtp, setDemoOtp] = useState<string | null>(null);
 
   const handleOtpChange = (value: string, index: number) => {
     if (!/^\d?$/.test(value)) return;
@@ -26,6 +29,61 @@ const Onboarding = () => {
     if (value && index < 5) {
       const next = document.getElementById(`otp-${index + 1}`);
       next?.focus();
+    }
+    setError(""); // Clear error on input
+  };
+
+  const handleSendOtp = async () => {
+    if (identifier.length < 10) return;
+    
+    setLoading(true);
+    setError("");
+    
+    try {
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: identifier })
+      });
+      
+      const data = await response.json();
+      if (response.ok) {
+        setDemoOtp(data.demoOtp || null);
+        setStep("otp");
+      } else {
+        setError(data.error || "Failed to send OTP");
+      }
+    } catch (err) {
+      setError("Network error. Is the backend running?");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    const otpValue = otp.join("");
+    if (otpValue.length < 6) return;
+    
+    setLoading(true);
+    setError("");
+    
+    try {
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: identifier, otp: otpValue })
+      });
+      
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setStep("fingerprint");
+      } else {
+        setError(data.error || "Invalid OTP. Please try again.");
+      }
+    } catch (err) {
+      setError("Verification failed. Check your connection.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,12 +158,13 @@ const Onboarding = () => {
                 )}
               </div>
               <Button
-                onClick={() => setStep("otp")}
-                disabled={identifier.length < (method === "phone" ? 10 : 12)}
+                onClick={handleSendOtp}
+                disabled={identifier.length < (method === "phone" ? 10 : 12) || loading}
                 className="w-full h-12 finpay-gradient text-primary-foreground font-semibold text-base rounded-xl"
               >
-                Send OTP <ArrowRight size={18} className="ml-2" />
+                {loading ? "Sending..." : "Send OTP"} <ArrowRight size={18} className="ml-2" />
               </Button>
+              {error && <p className="text-destructive text-xs text-center mt-2">{error}</p>}
             </motion.div>
           )}
 
@@ -132,15 +191,25 @@ const Onboarding = () => {
                     />
                   ))}
                 </div>
-                <p className="text-center text-xs text-muted-foreground">Demo: Enter any 6 digits</p>
+                {demoOtp && (
+                  <div className="bg-primary/10 p-3 rounded-xl border border-primary/20 animate-in fade-in slide-in-from-top-1">
+                    <p className="text-center text-sm font-bold text-primary">
+                      Demo OTP: <span className="tracking-[4px]">{demoOtp}</span>
+                    </p>
+                  </div>
+                )}
+                <p className="text-center text-xs text-muted-foreground">
+                  {import.meta.env.DEV ? "Check backend console for OTP if no SMS API Key set" : "Enter the 6-digit code"}
+                </p>
               </div>
               <Button
-                onClick={() => setStep("fingerprint")}
-                disabled={!isOtpFilled}
+                onClick={handleVerifyOtp}
+                disabled={!isOtpFilled || loading}
                 className="w-full h-12 finpay-gradient text-primary-foreground font-semibold text-base rounded-xl"
               >
-                Verify & Continue
+                {loading ? "Verifying..." : "Verify & Continue"}
               </Button>
+              {error && <p className="text-destructive text-xs text-center mt-2">{error}</p>}
             </motion.div>
           )}
 
